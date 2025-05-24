@@ -1,6 +1,6 @@
 # CI de Nível 02 - Disparo agendado
 
-# nome do nosso 'pipeline'
+# nome do nosso 'pipeline' d
 name: 'Execução Agendada'
 
 # Regras de disparo (gatilhos/triggers)
