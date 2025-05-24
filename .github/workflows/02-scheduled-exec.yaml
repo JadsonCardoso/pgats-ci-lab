@@ -7,7 +7,7 @@ name: 'Execução Agendada'
 # gatilho de exec agendada  = schedule
 on:
   schedule: # a - minuto, b - hora, c - dia do mês, d - mês, e - dia da semana
-    - cron: '0 6 ** 1'
+    - cron: '0 6 * * 1'
 
 # Trabalhos/tarefas dentro do pipelina = jobs
 jobs:
