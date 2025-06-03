@@ -5,38 +5,45 @@ name: 'Execução Manual'
 
 # Regras de disparo (gatilhos/triggers)
 # gatilho de exec manual = workflow_dispatch
-on:
+on: # Define quando será executado, nesse caso será manual
   workflow_dispatch: #Espaço deve ter apenas um TAB se não dá erro
 
-# Trabalhos/tarefas dentro do pipelina = jobs
-jobs:
-  e2e-tests: #indente o código conforme esse projeto, se não pode dá ruim a execução
+# Trabalhos/tarefas dentro do pipeline = jobs
+jobs: #indente o código conforme esse projeto, se não pode dá ruim a execução
+  e2e-tests: # Nome do job que será executado. Poderia ser: build, deploy, lint etc. 
 
-    # maquina que o job vai executar
+    # maquina que o job vai executar. Maquina virtual que rodará o job
     runs-on: ubuntu-latest
 
-    # passos do script de build
+    # passos do script de build. Tudo que está em steps: é executado em ordem.
     steps: 
-      # clone do projeto
+      # clone do projeto. Esse step baixa o código do repositório para dentro da máquina do GitHub Actions.
       - uses: actions/checkout@v4 # - uses é o comando para chamar o actions
 
-      # instalação do node
+      # instalação do node. Configura o ambiente com a versão do Node.js que seu projeto usa.
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
 
-      # instalação do YARN
+      # instalação do YARN.  gerenciador de pacotes Yarn globalmente, porque o projeto usa yarn ao invés de npm.
       - name: Instalando Yarn
         run: npm install -g yarn
 
-      # instalação das depedencias
+      # instalação das depedencias. Roda yarn install, que lê o package.json e baixa as dependências necessárias.
       - name: Instalando dependências
         run: yarn
 
-      # instalação do Playywright
+      # instalação do Playywright. Instala os navegadores (Chromium, Firefox, WebKit) que o Playwright precisa para rodar os testes.
       - name: Instalando Playwright
         run: yarn playwright install
 
-      # Executar os testes e2e
+      # Executar os testes e2e. Executa o script e2e definido no seu package.json.
       - name: Executando Testes E2E
         run: yarn run e2e
+      
+      - run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json
+
+      - uses: daun/playwright-report-summary@v3
+        if: always()
+        with:
+          report-file: results.json
