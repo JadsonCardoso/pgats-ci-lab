@@ -2,7 +2,7 @@ name: 'Execução agendada - prática'
 
 on: 
   schedule:
-    - cron: '0 21 * * 4'
+    - cron: '0 6 * * 5'
 
 jobs:
   e2e-tests:
