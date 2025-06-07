@@ -7,7 +7,7 @@ on:
 
     # Cada bloco é independente e roda em paralelo: Exemplo: inspeção, unidade, e2e e deploy
 jobs:
-  inspecao: # Essse bloco inspeciona a questão de formatação dos arquivos do projeto: identação, sitaxe etc. 
+  inspecao: # Essse bloco inspeciona a questão de formatação dos arquivos do projeto: identação, sitaxe etc.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
