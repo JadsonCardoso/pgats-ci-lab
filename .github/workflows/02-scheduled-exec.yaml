@@ -12,12 +12,11 @@ on:
 # Trabalhos/tarefas dentro do pipelina = jobs
 jobs:
   e2e-tests: #indente o código conforme esse projeto, se não pode dá ruim a execução
-
     # maquina que o job vai executar
     runs-on: ubuntu-latest
 
     # passos do script de build
-    steps: 
+    steps:
       # clone do projeto
       - uses: actions/checkout@v4 # - uses é o comando para chamar o actions
 

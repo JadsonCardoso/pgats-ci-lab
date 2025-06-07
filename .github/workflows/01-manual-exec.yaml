@@ -10,13 +10,12 @@ on: # Define quando será executado, nesse caso será manual
 
 # Trabalhos/tarefas dentro do pipeline = jobs
 jobs: #indente o código conforme esse projeto, se não pode dá ruim a execução
-  e2e-tests: # Nome do job que será executado. Poderia ser: build, deploy, lint etc. 
-
+  e2e-tests: # Nome do job que será executado. Poderia ser: build, deploy, lint etc.
     # maquina que o job vai executar. Maquina virtual que rodará o job
     runs-on: ubuntu-latest
 
     # passos do script de build. Tudo que está em steps: é executado em ordem.
-    steps: 
+    steps:
       # clone do projeto. Esse step baixa o código do repositório para dentro da máquina do GitHub Actions.
       - uses: actions/checkout@v4 # - uses é o comando para chamar o actions
 
@@ -40,7 +39,7 @@ jobs: #indente o código conforme esse projeto, se não pode dá ruim a execuç�
       # Executar os testes e2e. Executa o script e2e definido no seu package.json.
       - name: Executando Testes E2E
         run: yarn run e2e
-      
+
       - run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json
 
       - uses: daun/playwright-report-summary@v3

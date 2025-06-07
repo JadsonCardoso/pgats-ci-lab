@@ -3,7 +3,6 @@
 # nome do nosso 'pipeline'
 name: 'Execução por Deploy'
 
-
 # regras de disparo (Gatilhos/triggers)
 # gatilho de exec manual = workflow_dispatch
 # gatilho de exec agendada = schedule
@@ -17,22 +16,19 @@ on: # Define quando será executado, nesse caso será por deploy
 
 # Trabalhos/tarefas dentro do pipeline = jobs
 jobs: #indente o código conforme esse projeto, se não pode dá ruim a execução
-  e2e-tests: # Nome do job que será executado. Poderia ser: build, deploy, lint etc. 
-
+  e2e-tests: # Nome do job que será executado. Poderia ser: build, deploy, lint etc.
     # maquina que o job vai executar. Maquina virtual que rodará o job
     runs-on: ubuntu-latest
 
     # condicional - if
     # `${expressao}`
-    # == comparação 
+    # == comparação
     #// Pesquisar sobre variaveis e expressoes no gitactions
 
     if: ${{ github.event.workflow_run.conclusion == 'success' }} # For sucesso, ele irá executar os steps
 
-
-
     # passos do script de build. Tudo que está em steps: é executado em ordem.
-    steps: 
+    steps:
       # clone do projeto. Esse step baixa o código do repositório para dentro da máquina do GitHub Actions.
       - uses: actions/checkout@v4 # - uses é o comando para chamar o actions
 
@@ -61,10 +57,8 @@ jobs: #indente o código conforme esse projeto, se não pode dá ruim a execuç�
         if: ${{ !cancelled() }}
         with:
           name: relatorio # vamos subir o relatório
-          path: ./playwright-report  # caminho do relatório
-      
+          path: ./playwright-report # caminho do relatório
 
-      
       - run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json
 
       - uses: daun/playwright-report-summary@v3
