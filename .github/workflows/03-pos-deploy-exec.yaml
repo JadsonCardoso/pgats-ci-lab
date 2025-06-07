@@ -56,6 +56,14 @@ jobs: #indente o código conforme esse projeto, se não pode dá ruim a execuç�
       # Executar os testes e2e. Executa o script e2e definido no seu package.json.
       - name: Executando Testes E2E
         run: yarn run e2e
+
+      - uses: actions/upload-artifact@v4 # Ele sube os arquivos para o reposiório
+        if: ${{ !cancelled() }}
+        with:
+          name: relatorio # vamos subir o relatório
+          path: ./playwright-report  # caminho do relatório
+      
+
       
       - run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json
 
