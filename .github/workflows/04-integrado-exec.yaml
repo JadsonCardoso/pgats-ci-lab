@@ -1,12 +1,13 @@
 # CI de Nível 04 - Disparo de testes dentro da pipeline de dev
-
+# caso a parte de INSPEÇÃO falhe rode: yarn run prettier --write . para formatar o projeto
 name: 'Execução Integrada'
 
 on:
   workflow_dispatch:
 
+    # Cada bloco é independente e roda em paralelo: Exemplo: inspeção, unidade, e2e e deploy
 jobs:
-  inspecao:
+  inspecao: # Essse bloco inspeciona a questão de formatação dos arquivos do projeto: identação, sitaxe etc. 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,6 +26,7 @@ jobs:
         run: yarn lint
   unidade:
     runs-on: ubuntu-latest
+    needs: [inspecao]
 
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +45,7 @@ jobs:
         run: yarn run test
   e2e-tests:
     runs-on: ubuntu-latest
+    needs: [inspecao] # Depnde de qa inspeção dê sucesso para essa etapa excutrar
 
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +73,7 @@ jobs:
           path: ./playwright-report
   deploy:
     runs-on: ubuntu-latest
+    needs: [e2e-tests]
 
     steps:
       - name: Deploy simulation
